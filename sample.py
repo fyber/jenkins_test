@@ -1,4 +1,6 @@
 import math
 
 
-print('Square root of 16 is {}'.format(math.sqrt(16)))
+NUMBER = 16
+
+print('Square root of {} is {}'.format(NUMBER, math.sqrt(16)))
