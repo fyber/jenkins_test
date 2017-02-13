@@ -1,0 +1,23 @@
+# Enables support for a docker container-based build
+# which should provide faster startup times and beefier
+# "machines".
+# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
+# TRAVIS_PYTHON_VERSION
+
+matrix:
+  include:
+    - language: python
+      python: "2.7"
+      env: TOXENV=py27
+
+    - language: python
+      python: "3.6"
+      env: TOXENV=py36
+
+install:
+  - pip install tox
+
+script:
+  - tox -v
