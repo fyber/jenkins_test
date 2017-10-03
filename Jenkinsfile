@@ -12,7 +12,21 @@ node {
     }
 
     stage('Run flake8') {
-      sh "flake8"
+      sh '''
+        mkfifo pipe
+        tee flake8_warnings.txt < pipe &
+        flake8 > pipe || true
+        test $? -eq 0 && echo "pylint exited with $?"'''
     }
+
+    step([
+      $class: 'WarningsPublisher',
+      parserConfigurations: [[
+        parserName: 'Pep8',
+        pattern: 'flake8_warnings.txt',
+      ]],
+      unstableTotalAll: '0',
+      usePreviousBuildAsReference: true
+    ])
   }
 }
